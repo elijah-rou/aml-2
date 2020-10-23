@@ -30,11 +30,9 @@ def objective(trial):
     X_train, X_dev, y_train, y_dev = train_test_split(df.drop(columns=["is_disaster"]), df.is_disaster, train_size=0.7)
 
     C = trial.suggest_loguniform("C", 1e-10, 1e10)
-    kernel = trial.suggest_categorical("kernel", ["linear", "poly", "rbf"])
-    degree = trial.suggest_int("degree", 3, 10) if kernel == "poly" else 3
-    gamma = trial.suggest_categorical("gamma", ["scale", "auto"])
+    tol = trial.s
 
-    svm = SVC(C=C, kernel=kernel, degree=degree, gamma=gamma).fit(X_train, y_train)
+    clf = SVC(C=C, kernel=kernel, degree=degree, gamma=gamma).fit(X_train, y_train)
 
     return svm.score(X_dev, y_dev)
 
